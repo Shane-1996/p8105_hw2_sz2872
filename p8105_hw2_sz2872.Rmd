@@ -1,21 +1,15 @@
 ---
-title: "Simple document"
+title: "p8105_hw2_sz2872"
+author: "Shunyi Zhang"
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
-I'm an R Markdown document! 
-
-# Section 1
-
-Here's a **code chunk** that samples from 
-a _normal distribution_:
+This is my solution for hw2.
 
 ```{r}
-samp = rnorm(100)
-length(samp)
+library(tidyverse)
+library(readxl)
 ```
 
-# Section 2
-
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
