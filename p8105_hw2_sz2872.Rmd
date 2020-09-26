@@ -66,3 +66,18 @@ For `precip_tidy`, it has `r precip_tidy %>% nrow()` rows and `r precip_tidy %>%
 The median number of sports balls in a dumpster in 2017 is `r mr_trashwheel_df %>% filter(year == 2017) %>% pull(sports_balls) %>% median()`.
 
 The total precipitation in 2018 is `r precip_tidy %>% filter(year == 2018) %>% pull(total) %>% sum()`.
+
+
+## Problem 2
+
+Read and Clean the NYC subway data.
+
+```{r}
+transit_df = 
+  read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  janitor::clean_names() %>% 
+  select(line, station_name, station_latitude, station_longitude, route1:route11, entry, entrance_type, vending, ada) %>% 
+  mutate(entry = ifelse(entry == "YES",TRUE, FALSE)) %>% 
+  mutate_at(vars(route8:route11), as.character) 
+```
+
