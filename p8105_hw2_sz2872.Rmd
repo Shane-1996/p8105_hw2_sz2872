@@ -12,6 +12,7 @@ This is my solution for hw2.
 library(tidyverse)
 ```
 
+
 ## Problem 1
 
 Read and Clean the Mr. Trash Wheel sheet.
@@ -26,3 +27,32 @@ mr_trashwheel_df =
   mutate(sports_balls = as.integer(round(sports_balls)))
 ```
 
+Read and Clean precipitation data for 2017 and 2018.
+
+```{r tidy precipitation for 2017 and 2018}
+precip_2017 =
+  readxl::read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+                     sheet = "2017 Precipitation",
+                     skip = 1) %>% 
+  janitor::clean_names() %>% 
+  drop_na(month) %>% 
+  mutate(year = "2017") %>% 
+  relocate(year)
+
+precip_2018 =
+  readxl::read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+                     sheet = "2018 Precipitation",
+                     skip = 1) %>% 
+  janitor::clean_names() %>% 
+  drop_na(month) %>% 
+  mutate(year = "2018") %>% 
+  relocate(year)
+```
+
+Bind precip_17 and precip_18
+
+```{r}
+precip_tidy =
+  bind_rows(precip_2017, precip_2018) %>% 
+  mutate(month = month.name[month])
+```
