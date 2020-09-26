@@ -81,3 +81,10 @@ transit_df =
   mutate_at(vars(route8:route11), as.character) 
 ```
 
+The `transit_df` dataset contains `r transit_df %>% ls()` as variables.
+
+After load the .csv file, the dataset is named `transit_df`. The next step following is unifing the variables' names using `janitor::clean_names`. Then, using the `select` function to pick the variables as order. Moving to the next part, I apply the `mutate` function for the purpose of convert the entry variable from character to a logical variable. The last step is converting variables (route8 tp route11) from double variables to character variables. 
+
+As all processes are done, the `transit_df` has `r transit_df %>% dim()`. 
+
+I don't think the data is tidy enough. For `route1:route11`, it is reasonable to use `pivot_longer` to make the datast easier to work with. 
