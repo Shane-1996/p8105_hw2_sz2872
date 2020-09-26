@@ -56,3 +56,13 @@ precip_tidy =
   bind_rows(precip_2017, precip_2018) %>% 
   mutate(month = month.name[month])
 ```
+
+After clean and tidy both data frames, here are the summaries for both datasets.
+
+For `mr_trashwheel_df`, it has `r mr_trashwheel_df %>% nrow()` rows and `r mr_trashwheel_df %>% ncol()` columns.The total number of observations is 4816. The key variables are `r mr_trashwheel_df %>% ls()`.
+
+For `precip_tidy`, it has `r precip_tidy %>% nrow()` rows and `r precip_tidy %>% ncol()` columns.The total number of observations is 72. The key variables are `r precip_tidy %>% ls()`.
+
+The median number of sports balls in a dumpster in 2017 is `r mr_trashwheel_df %>% filter(year == 2017) %>% pull(sports_balls) %>% median()`.
+
+The total precipitation in 2018 is `r precip_tidy %>% filter(year == 2018) %>% pull(total) %>% sum()`.
