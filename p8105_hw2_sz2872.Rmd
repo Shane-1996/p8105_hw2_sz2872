@@ -115,15 +115,32 @@ pols_month =
   janitor::clean_names() %>%                                     #clean name
   separate(mon, c("year", "month", "day"), sep = "-") %>%        #separate mon
   mutate(year = as.integer(year), month = as.integer(month)) %>% 
+  arrange(year, month) %>% 
   mutate(month = month.name[month]) %>%                          #get month name
-  mutate(prez_gop = recode(prez_gop, `2` = 1)) %>% 
+  mutate(prez_gop = recode(prez_gop, `2` = 1)) %>%               #recode unlisted observations 
   pivot_longer(c("prez_gop", "prez_dem"), 
                names_to = "president",
                names_prefix = "prez_",
                values_to = "gop_dem"
-               ) %>% 
-  filter(gop_dem == 1) %>% 
-  relocate(year, month, president) %>% 
-  select(-"day", -"gop_dem") 
+               ) %>%                                             #create 'president'
+  filter(gop_dem == 1) %>%                                       #fit 'president'
+  relocate(year, month, president) %>%                           #set format
+  select(-"day", -"gop_dem")                                     #limit variables
 head(pols_month)
 ```
+
+Clean the Data in snp.csv
+
+```{r}
+snp_df =
+  read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(date, c("month", "day", "year")) %>% 
+  relocate(year, month) %>% 
+  select(-"day") %>% 
+  mutate(year = as.integer(year), month = as.integer(month)) %>%
+  arrange(year, month) %>% 
+  mutate(month = month.name[month]) 
+head(snp_df)
+```
+
