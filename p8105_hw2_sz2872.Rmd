@@ -158,3 +158,14 @@ unemp_df =
 head(unemp_df)
 ```
 
+Merge 3 data frames
+
+```{r}
+pols_snp_une = 
+  left_join(pols_month, 
+            snp_df, 
+            by = c("year" = "year", "month" = "month")) %>% 
+  left_join(unemp_df,by = c("year" = "year", "month" = "month") )
+head(pols_snp_une)
+```
+
