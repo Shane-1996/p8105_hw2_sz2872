@@ -144,3 +144,17 @@ snp_df =
 head(snp_df)
 ```
 
+Clean the Data in unemployment.csv
+
+```{r}
+unemp_df = 
+  read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>% 
+  pivot_longer(c("Jan":"Dec"),
+               names_to = "month",
+               values_to = "percentage") %>% 
+  mutate(month = month.name[match(month, month.abb)]) %>% 
+  janitor::clean_names() %>% 
+  mutate(year = as.integer(year))
+head(unemp_df)
+```
+
