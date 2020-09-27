@@ -24,7 +24,8 @@ mr_trashwheel_df =
                      range = "A2:N408") %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>% 
-  mutate(sports_balls = as.integer(round(sports_balls)))
+  mutate(sports_balls = as.integer(round(sports_balls))) 
+head(mr_trashwheel_df)
 ```
 
 Read and Clean precipitation data for 2017 and 2018.
@@ -54,7 +55,8 @@ Bind precip_17 and precip_18
 ```{r}
 precip_tidy =
   bind_rows(precip_2017, precip_2018) %>% 
-  mutate(month = month.name[month])
+  mutate(month = month.name[month]) 
+head(precip_tidy)
 ```
 
 After clean and tidy both data frames, here are the summaries for both datasets.
@@ -79,6 +81,7 @@ transit_df =
   select(line, station_name, station_latitude, station_longitude, route1:route11, entry, entrance_type, vending, ada) %>% 
   mutate(entry = ifelse(entry == "YES",TRUE, FALSE)) %>% 
   mutate_at(vars(route8:route11), as.character) 
+head(transit_df)
 ```
 
 The `transit_df` dataset contains `r transit_df %>% ls()` as variables.
@@ -113,11 +116,14 @@ pols_month =
   separate(mon, c("year", "month", "day"), sep = "-") %>%        #separate mon
   mutate(year = as.integer(year), month = as.integer(month)) %>% 
   mutate(month = month.name[month]) %>%                          #get month name
+  mutate(prez_gop = recode(prez_gop, `2` = 1)) %>% 
   pivot_longer(c("prez_gop", "prez_dem"), 
                names_to = "president",
                names_prefix = "prez_",
                values_to = "gop_dem"
                ) %>% 
   filter(gop_dem == 1) %>% 
-  select(-"day", -"gop_dem")
+  relocate(year, month, president) %>% 
+  select(-"day", -"gop_dem") 
+head(pols_month)
 ```
