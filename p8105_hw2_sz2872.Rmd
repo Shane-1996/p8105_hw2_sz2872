@@ -100,3 +100,24 @@ The proportion of station entrances / exits without vending allow entrance is.
 `r transit_df %>% filter(entry == TRUE, vending == "NO") %>% nrow() / transit_df %>% filter(entry == TRUE) %>% nrow()`
 `r transit_df %>% filter(entry == TRUE) %>% nrow()`
 `r transit_df %>% filter(vending == "NO", entry == TRUE) %>% nrow()`
+
+
+## Problem 3
+
+Clean the Data in pols-month.csv.
+
+```{r clean pols_month}
+pols_month = 
+  read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>% #load data
+  janitor::clean_names() %>%                                     #clean name
+  separate(mon, c("year", "month", "day"), sep = "-") %>%        #separate mon
+  mutate(year = as.integer(year), month = as.integer(month)) %>% 
+  mutate(month = month.name[month]) %>%                          #get month name
+  pivot_longer(c("prez_gop", "prez_dem"), 
+               names_to = "president",
+               names_prefix = "prez_",
+               values_to = "gop_dem"
+               ) %>% 
+  filter(gop_dem == 1) %>% 
+  select(-"day", -"gop_dem")
+```
