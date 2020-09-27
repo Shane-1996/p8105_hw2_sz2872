@@ -15,9 +15,9 @@ library(tidyverse)
 
 ## Problem 1
 
-Read and Clean the Mr. Trash Wheel sheet.
+### Read and Clean the Mr. Trash Wheel sheet.
 
-```{r tidy mr_trashwheel}
+```{r mr_trashwheel_df}
 mr_trashwheel_df = 
   readxl::read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
                      sheet = "Mr. Trash Wheel",
@@ -28,7 +28,7 @@ mr_trashwheel_df =
 head(mr_trashwheel_df)
 ```
 
-Read and Clean precipitation data for 2017 and 2018.
+### Read and Clean precipitation data for 2017 and 2018.
 
 ```{r tidy precipitation for 2017 and 2018}
 precip_2017 =
@@ -50,9 +50,9 @@ precip_2018 =
   relocate(year)
 ```
 
-Bind precip_17 and precip_18
+### Bind precip_17 and precip_18
 
-```{r}
+```{r precip_tidy}
 precip_tidy =
   bind_rows(precip_2017, precip_2018) %>% 
   mutate(month = month.name[month]) 
@@ -72,9 +72,9 @@ The total precipitation in 2018 is `r precip_tidy %>% filter(year == 2018) %>% p
 
 ## Problem 2
 
-Read and Clean the NYC subway data.
+### Read and Clean the NYC subway data.
 
-```{r}
+```{r transit_df}
 transit_df = 
   read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
   janitor::clean_names() %>% 
@@ -92,19 +92,16 @@ As all processes are done, the `transit_df` has `r transit_df %>% dim()`.
 
 I don't think the data is tidy enough. For `route1:route11`, it is reasonable to use `pivot_longer` to make the datast easier to work with. 
 
-#### Answer Qestions
+### Answer Qestions
 
 There are `r transit_df %>% distinct(station_name, line) %>% count()` distinct stations presented in the NYC transit dataset.
 
 Among the distinct stations, `r transit_df %>% filter(ada == TRUE) %>% distinct(station_name, line) %>% count()` of them are ADA compliant. 
 
-The proportion of station entrances / exits without vending allow entrance is.
-'it should be one of the following, but who knows, I have trouble reading the sentance. Waiting for help. '
-`r transit_df %>% filter(entry == TRUE, vending == "NO") %>% nrow() / transit_df %>% filter(entry == TRUE) %>% nrow()`
-`r transit_df %>% filter(entry == TRUE) %>% nrow()`
-`r transit_df %>% filter(vending == "NO", entry == TRUE) %>% nrow()`
+The proportion of station entrances / exits without vending allow entrance is `r transit_df %>% filter(entry == TRUE, vending == "NO") %>% nrow() / transit_df %>% filter(entry == TRUE) %>% nrow()`.
 
-```{r}
+### Reformat transit_df to transit_tidy
+```{r transit_tidy}
 transit_tidy = 
   transit_df %>% 
   pivot_longer(
@@ -121,11 +118,12 @@ After longer the route variable, the result shows that there are `r transit_tidy
 
 Among those, `r transit_tidy %>% filter(route_name == "A", ada == TRUE) %>%  distinct(station_name, line) %>% count()` stations are ADA compliant. 
 
+
 ## Problem 3
 
-Clean the Data in pols-month.csv.
+### Clean the Data in pols-month.csv.
 
-```{r clean pols_month}
+```{r pols_month}
 pols_month = 
   read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>% #load data
   janitor::clean_names() %>%                                     #clean name
@@ -145,9 +143,9 @@ pols_month =
 head(pols_month)
 ```
 
-Clean the Data in snp.csv
+### Clean the Data in snp.csv
 
-```{r}
+```{r snp_df}
 snp_df =
   read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
   janitor::clean_names() %>% 
@@ -160,9 +158,9 @@ snp_df =
 head(snp_df)
 ```
 
-Clean the Data in unemployment.csv
+### Clean the Data in unemployment.csv
 
-```{r}
+```{r unemp_df}
 unemp_df = 
   read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>% 
   pivot_longer(c("Jan":"Dec"),
@@ -174,9 +172,9 @@ unemp_df =
 head(unemp_df)
 ```
 
-Merge 3 data frames
+### Merge 3 data frames
 
-```{r}
+```{r pols_snp_une}
 pols_snp_une = 
   left_join(pols_month, 
             snp_df, 
