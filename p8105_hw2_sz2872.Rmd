@@ -13,13 +13,13 @@ library(tidyverse)
 ```
 
 
-## Problem 1
-
+## Problem 1 trashwheel
+l
 ### Read and Clean the Mr. Trash Wheel sheet.
 
 ```{r mr_trashwheel_df}
 mr_trashwheel_df = 
-  readxl::read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  readxl::read_excel( path = "./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
                      sheet = "Mr. Trash Wheel",
                      range = "A2:N408") %>% 
   janitor::clean_names() %>% 
@@ -52,25 +52,25 @@ precip_2018 =
 
 ### Bind precip_17 and precip_18
 
-```{r precip_tidy}
-precip_tidy =
+```{r precip_df}
+precip_df =
   bind_rows(precip_2017, precip_2018) %>% 
   mutate(month = month.name[month]) 
-head(precip_tidy)
+head(precip_df)
 ```
 
 After clean and tidy both data frames, here are the summaries for both datasets.
 
 For `mr_trashwheel_df`, it has `r mr_trashwheel_df %>% nrow()` rows and `r mr_trashwheel_df %>% ncol()` columns.The total number of observations is 4816. The key variables are `r mr_trashwheel_df %>% ls()`.
 
-For `precip_tidy`, it has `r precip_tidy %>% nrow()` rows and `r precip_tidy %>% ncol()` columns.The total number of observations is 72. The key variables are `r precip_tidy %>% ls()`.
+For `precip_df`, it has `r precip_df %>% nrow()` rows and `r precip_df %>% ncol()` columns.The total number of observations is 72. The key variables are `r precip_df %>% ls()`.
 
 The median number of sports balls in a dumpster in 2017 is `r mr_trashwheel_df %>% filter(year == 2017) %>% pull(sports_balls) %>% median()`.
 
-The total precipitation in 2018 is `r precip_tidy %>% filter(year == 2018) %>% pull(total) %>% sum()`.
+The total precipitation in 2018 is `r precip_df %>% filter(year == 2018) %>% pull(total) %>% sum()`.
 
 
-## Problem 2
+## Problem 2 transit
 
 ### Read and Clean the NYC subway data.
 
@@ -90,7 +90,7 @@ After load the .csv file, the dataset is named `transit_df`. The next step follo
 
 As all processes are done, the `transit_df` has `r transit_df %>% dim()`. 
 
-I don't think the data is tidy enough. For `route1:route11`, it is reasonable to use `pivot_longer` to make the datast easier to work with. 
+I don't think the data is tidy enough. For `route1:route11`, it is reasonable to use `pivot_longer` to make the dataset easier to work with. 
 
 ### Answer Qestions
 
@@ -119,7 +119,7 @@ After longer the route variable, the result shows that there are `r transit_tidy
 Among those, `r transit_tidy %>% filter(route_name == "A", ada == TRUE) %>%  distinct(station_name, line) %>% count()` stations are ADA compliant. 
 
 
-## Problem 3
+## Problem 3 5thirty8
 
 ### Clean the Data in pols-month.csv.
 
@@ -183,3 +183,10 @@ pols_snp_une =
 head(pols_snp_une)
 ```
 
+The dataset `pols_month` is about the number of national politicians who are democratic or republican at any given time. After wrangling, the data contains variables `r ls(pols_month)`. The total number of observations in the dataset is `r dim(pols_month)`.
+
+The dataset `snp_df` is about Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. After wrangling, the data contains variables `r ls(snp_df)`. The total number of observations in the dataset is `r dim(snp_df)`.
+
+The dataset `unemp_df` is about unemployment. After wrangling, the data contains variables `r ls(unemp_df)`. The total number of observations in the dataset is `r dim(unemp_df)`.
+
+The final dataset `pols_snp_une` is built by joining all three dataframes together. They are joining by the `month` variable. The resulting dataset has a dimention of `r dim(pols_snp_une)`. The range of year avaiable in this dataset is `r range(pols_snp_une %>% pull(year))`. 
