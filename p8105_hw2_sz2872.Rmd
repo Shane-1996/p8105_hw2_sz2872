@@ -98,7 +98,7 @@ There are `r transit_df %>% distinct(station_name, line) %>% count()` distinct s
 
 Among the distinct stations, `r transit_df %>% filter(ada == TRUE) %>% distinct(station_name, line) %>% count()` of them are ADA compliant. 
 
-The proportion of station entrances / exits without vending allow entrance is `r transit_df %>% filter(entry == TRUE, vending == "NO") %>% nrow() / transit_df %>% filter(entry == TRUE) %>% nrow()`.
+The proportion of station entrances / exits without vending allow entrance is `r transit_df %>% filter(entry == TRUE, vending == "NO") %>% nrow() / transit_df %>% filter(vending == "NO") %>% nrow()`.
 
 ### Reformat transit_df to transit_tidy
 ```{r transit_tidy}
